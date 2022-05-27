@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommunicationService } from 'app/communication/communication.service';
 
+//HOLAAAAAAAAAAAAAAAAAAA
+
 @Component({
     selector: 'entollment-cmp',
     moduleId: module.id,
