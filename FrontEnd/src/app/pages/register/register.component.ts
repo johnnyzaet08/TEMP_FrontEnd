@@ -58,13 +58,21 @@ export class RegisterComponent{
       var age = this.getUserAge(bDate.slice(0,-6));
       var category = this.setCategory(age);
         
-        
-      this.CS.sendRegisterData(fName,lName,nationality,bDate,age,username,password,userType, url, category).subscribe(res => {
+      if(userType == "athlete"){
+        this.CS.sendRegisterDataAtl(fName,lName,nationality,bDate,age,username,password, url, category).subscribe(res => {
           alert(res);
           this.router.navigateByUrl("/");
         }, error => {
           alert(error);
         });
+      }else{
+        this.CS.sendRegisterDataOrg(fName,lName,nationality,bDate,age,username,password, url, category).subscribe(res => {
+          alert(res);
+          this.router.navigateByUrl("/");
+        }, error => {
+          alert(error);
+        });
+      }
     }
   }
 

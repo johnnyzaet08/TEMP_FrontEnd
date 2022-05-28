@@ -43,9 +43,14 @@ export class LoginComponent{
   //VERIFICA QUE LOS DATOS INGRESADOS PERTENEZCAN A UN USUARIO REGISTRADO
   //POSTERIORMENTE SE ENVÍA AL COMPONENTE RESPECTIVO
   //RECIBE: NOMBRE DE USUARIO Y CONTRASEÑA, RESPECTIVAMENTE
-  verifyLogin(username, password){
+  verifyLogin(username, password, user_type){
     localStorage.setItem('current_username', username);
     localStorage.setItem("current_password", password);
+    if(user_type == "athlete"){
+      this.router.navigateByUrl('/dashboard');
+    }else{
+      this.router.navigateByUrl('/race-management');
+    }
     /*this.CS.verifyUser(username,password).subscribe(
       res => {
         if(res['userType'] == 'Athlete'){
@@ -65,6 +70,6 @@ export class LoginComponent{
         alert("Nombre de usuario o contraseña incorrectos");
       }
       )*/;;
-      this.router.navigateByUrl('/dashboard');
+      //this.router.navigateByUrl('/dashboard');
   }
 }
