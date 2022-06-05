@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, UrlSegment } from '@angular/router';
 
 import { CommunicationService } from './../../communication/communication.service';
 
@@ -47,14 +47,25 @@ export class LoginComponent{
     if(user_type == "athlete"){
       this.CS.verifyUserAtl(username,password).subscribe(
         res => {
-          this.setLocalStorage(username, password);       
+          this.setLocalStorage(username, password); 
+          //this.router.navigateByUrl('/dashboard');      
           },
         error => {
           console.log(error);
           alert("Nombre de usuario o contraseña incorrectos");
         })
-    }else{
-      this.router.navigateByUrl('/race-management');
+    }else if(user_type == "organizer"){
+      console.log(user_type);
+      this.CS.verifyUserOrg(username,password).subscribe(
+        res => {
+          this.setLocalStorage(username, password); 
+          this.router.navigateByUrl('/race-management');      
+          },
+        error => {
+          console.log(error);
+          alert("Nombre de usuario o contraseña incorrectos #2");
+        })
+      //this.router.navigateByUrl('/race-management');
     }
     /*this.CS.verifyUser(username,password).subscribe(
       res => {

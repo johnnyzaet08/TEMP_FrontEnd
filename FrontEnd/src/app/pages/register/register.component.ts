@@ -66,8 +66,9 @@ export class RegisterComponent{
           alert(error);
         });
       }else{
-        this.CS.sendRegisterDataOrg(fName,lName,nationality,bDate,age,username,password, url, category).subscribe(res => {
+        this.CS.sendRegisterDataOrg(fName,lName,nationality,bDate,age,username,password, url).subscribe(res => {
           alert(res);
+          console.log(res);
           this.router.navigateByUrl("/");
         }, error => {
           alert(error);

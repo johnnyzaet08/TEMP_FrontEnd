@@ -18,7 +18,8 @@ export class CommunicationService {
    }
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ORGANIZADOR
    public verifyUserOrg(username: string, password: string){
-    return this.http.post<JSON>(this.URL + "api/organizer/login", {"username": username, "password": password});
+    console.log({"username": username, "password": password})
+    return this.http.post<JSON>(this.URL + "api/organizer/login", {"username": username, "password": password, "birth_date":""});
    }
 
 
@@ -97,17 +98,16 @@ export class CommunicationService {
       });
    }
 
-   public sendRegisterDataOrg(fname, lname, nationality, bDate, age, user, pass, url, category){
-    return this.http.post<JSON>(this.URL+"api/organizer/Register",{
-      "fName":fname,
-      "lName":lname,
+   public sendRegisterDataOrg(fname, lname, nationality, bDate, age, user, pass, url){
+    return this.http.post<JSON>(this.URL+"api/Organizer/register",{
+      "fname":fname,
+      "lname":lname,
       "nationality":nationality,
-      "bDate":bDate,
-      "age":age,
+      "birth_date":bDate,
+      "current_age":age,
       "username":user,
       "password":pass,
-      "img_url":url,
-      "category":category
+      "photo":url
        });
     }
 
