@@ -13,7 +13,8 @@ export class CommunicationService {
   constructor(private http: HttpClient) {} 
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ATLETA
    public verifyUserAtl(username: string, password: string){
-    return this.http.post<JSON>(this.URL + "api/athlete/login", {"username": username, "password": password});
+     console.log({"username": username, "password": password})
+    return this.http.post<JSON>(this.URL + "api/athlete/login", {"username": username, "password": password, "birth_date":""});
    }
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ORGANIZADOR
    public verifyUserOrg(username: string, password: string){
@@ -84,8 +85,8 @@ export class CommunicationService {
   //SEND REGISTER DATA
   public sendRegisterDataAtl(fname, lname, nationality, bDate, age, user, pass, url, category){
    return this.http.post<JSON>(this.URL+"api/Athlete",{
-     "name":fname,
-     "lname1":lname,
+     "fname":fname,
+     "lname":lname,
      "nationality":nationality,
      "birth_date":bDate,
      "current_age":age,
@@ -197,7 +198,7 @@ public updateGroup(group_id, group_name, group_admin){
 // username1 : Atleta que se busca
 // username2 : Atleta que busca (usuario)
 public getUsers(username){
-  return this.http.post<JSON>(this.URL+"api/athlete/athletesearch",{"username1":username, "username2":localStorage.getItem("current_username")});
+  return this.http.get<JSON>(this.URL+"api/athlete");
 }
 
 //DELETE GROUP
@@ -266,8 +267,7 @@ denyGroupEnrollment(group_name, athlete_username){
 
 //AÑADE UN USUARIO A LA LISTA DE MIS AMIGOS
 addFriend(athlete_username){
-  return this.http.post<JSON>(this.URL+"api/athlete/addfollow",
-                              {"username": localStorage.getItem("current_username"), "athlete_username": athlete_username});
+  return this.http.post<JSON>(this.URL+"api/athlete/searchAthlete",{"athlete_username": athlete_username});
 }
 
 }

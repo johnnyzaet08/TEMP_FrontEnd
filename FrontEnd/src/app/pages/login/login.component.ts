@@ -44,10 +44,15 @@ export class LoginComponent{
   //POSTERIORMENTE SE ENVÍA AL COMPONENTE RESPECTIVO
   //RECIBE: NOMBRE DE USUARIO Y CONTRASEÑA, RESPECTIVAMENTE
   verifyLogin(username, password, user_type){
-    localStorage.setItem('current_username', username);
-    localStorage.setItem("current_password", password);
     if(user_type == "athlete"){
-      this.router.navigateByUrl('/dashboard');
+      this.CS.verifyUserAtl(username,password).subscribe(
+        res => {
+          this.setLocalStorage(username, password);       
+          },
+        error => {
+          console.log(error);
+          alert("Nombre de usuario o contraseña incorrectos");
+        })
     }else{
       this.router.navigateByUrl('/race-management');
     }

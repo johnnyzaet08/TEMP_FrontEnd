@@ -18,17 +18,17 @@ export class SearchComponent{
   ngOnInit(): void{
     this.athletesList = [];
     this.CS.getUsers(this.all).subscribe(res => {
-      var cont = 1;
-      while(cont < res["size"]){
+
+      var cont = 0;
+      while(cont < res["length"]){
 
         var data = [];
-        var user = "user" + cont.toString();
 
-        data.push(res[user]["f_name"] + " " + res[user]["l_name"]);
-        data.push(res[user]["username"]);
-        data.push(res[user]["nationality"]);
-        data.push(res[user]["activities"]);
-        data.push(res[user]["prof_img"]);
+        data.push(res[cont]["fname"] + " " + res[cont]["lname"]);
+        data.push(res[cont]["username"]);
+        data.push(res[cont]["nationality"]);
+        data.push(res[cont]["activities"]);
+        data.push(res[cont]["photo"]);
 
         this.athletesList.push(data);
         cont++;
@@ -51,6 +51,7 @@ export class SearchComponent{
   //AÑADE COMO AMIGO A UN USUARIO SELECCIONADO
   addFriend(athlete_username){
     this.CS.addFriend(athlete_username).subscribe(res => {
+      alert("Se ha agregado como amigo a " + athlete_username)
       this.all = "";
       this.ngOnInit();
     }, error => {
