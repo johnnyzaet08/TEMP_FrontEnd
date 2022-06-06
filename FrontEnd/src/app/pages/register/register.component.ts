@@ -60,14 +60,13 @@ export class RegisterComponent{
         
       if(userType == "athlete"){
         this.CS.sendRegisterDataAtl(fName,lName,nationality,bDate,age,username,password, url, category).subscribe(res => {
-          alert(res);
           this.router.navigateByUrl("/");
+          alert("Se ha agregado correctamente")
         }, error => {
           alert(error);
         });
       }else{
         this.CS.sendRegisterDataOrg(fName,lName,nationality,bDate,age,username,password, url).subscribe(res => {
-          alert(res);
           console.log(res);
           this.router.navigateByUrl("/");
         }, error => {

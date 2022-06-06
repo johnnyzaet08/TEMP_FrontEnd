@@ -17,20 +17,24 @@ export class SearchComponent{
   //SE POPULAN N CARTAS CON LOS USUARIOS QUE NO SE HAN SEGUIDO
   ngOnInit(): void{
     this.athletesList = [];
-    this.CS.getUsers(this.all).subscribe(res => {
 
+    this.CS.getUsers(this.all).subscribe(res => {
+      console.log(res)
       var cont = 0;
       while(cont < res["length"]){
 
         var data = [];
+        if(res[cont]["id"] != localStorage.getItem("current_id")){
+          data.push(res[cont]["fname"] + " " + res[cont]["lname"]);
+          data.push(res[cont]["username"]);
+          data.push(res[cont]["nationality"]);
+          data.push(res[cont]["activities"]);
+          data.push(res[cont]["photo"]);
+          data.push(res[cont]["id"]);
 
-        data.push(res[cont]["fname"] + " " + res[cont]["lname"]);
-        data.push(res[cont]["username"]);
-        data.push(res[cont]["nationality"]);
-        data.push(res[cont]["activities"]);
-        data.push(res[cont]["photo"]);
-
-        this.athletesList.push(data);
+          this.athletesList.push(data);
+        }
+        
         cont++;
 
       }
@@ -49,9 +53,9 @@ export class SearchComponent{
   }
 
   //AÑADE COMO AMIGO A UN USUARIO SELECCIONADO
-  addFriend(athlete_username){
-    this.CS.addFriend(athlete_username).subscribe(res => {
-      alert("Se ha agregado como amigo a " + athlete_username)
+  addFriend(friend_id){
+    this.CS.addFriend(friend_id, localStorage.getItem("current_id")).subscribe(res => {
+      alert("Se ha agregado como amigo")
       this.all = "";
       this.ngOnInit();
     }, error => {

@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 p-1">
+          <div class="col-md-6 p-3">
             <div class="form-group">
               <label>Fecha de Actividad</label>
               <input #date type="date" required class="form-control" placeholder="" >
@@ -31,9 +31,11 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 pl-1">
+          <div class="col-md-6 pl-3">
             <div class="flex flex-col pt-3">
               <label for="user_type" class="text-lg">Tipo de Actividad</label>
+            </div>
+            <div class="flex flex-col pt-2">
               <select #a_type name="user">
                 <option  value="Atletismo">Atletismo</option>
                 <option  value="Natacion">Natacion</option>
@@ -44,8 +46,26 @@
               </select>
             </div>
           </div>
-          <div class="col-md-6 pl-1">
-            <div class="form-group">
+          <div class="col-md-6 pl-3">
+            <div class="flex flex-col pt-3">
+              <label for="user_type" class="text-lg">Categoria de Actividad</label>
+            </div>
+            <div class="flex flex-col pt-2">
+              <select #category_activity name="cate">
+                <option  value=1>Junior</option>
+                <option  value=2>Sub-23</option>
+                <option  value=3>Open</option>
+                <option  value=4>Elite</option>
+                <option  value=5>Master A</option>
+                <option  value=6>Master B</option>
+                <option  value=7>Master C</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 pl-3">
+            <div class="flex flex-col pt-4">
               <label>Kilómetros recorridos</label>
               <input #km type="text" required class="form-control" placeholder="" >
             </div>
@@ -61,7 +81,7 @@
         </div>
         <div class="row">
           <div class="update ml-auto mr-auto"> 
-            <button type="button" (click)="sendNewActivity(s_time.value, duration.value, a_type.value, date.value, URL.value, km.value)" class="btn btn-primary btn-round">Añadir Actividad</button>
+            <button type="button" (click)="sendNewActivity(s_time.value, duration.value, a_type.value, date.value, URL.value, km.value, category_activity.value)" class="btn btn-primary btn-round">Añadir Actividad</button>
           </div>
         </div>
       </form>

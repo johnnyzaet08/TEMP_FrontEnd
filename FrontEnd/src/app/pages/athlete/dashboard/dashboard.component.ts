@@ -16,36 +16,20 @@ export class DashboardComponent implements OnInit{
 
   //SE OBTIENEN DATOS DE LAS ACTIVIDADES DE LOS USUARIOS SEGUIDOS POR EL USUARIO, Y SE PEGAN EN CARTAS DINÁMICAS
   ngOnInit(): void{
-    this.CS.getFriendsActivities(localStorage.getItem('current_username')).subscribe(res => {
+    this.CS.getFriendsActivities(localStorage.getItem('current_id')).subscribe(res => {
+      var cont = 0
 
-      var cont = 1
+      while(cont < res["length"]){
 
-      while(cont < res["size"]){
+        this.uploadAtlete(res[cont]["usernameId"],res[cont]["route"],res[cont]["type"],
+        res[cont]["hour"], res[cont]["date"].slice(0,10), res[cont]["mileage"], res[cont]["duration"])
 
-        var data = []
-        var activity = "activity" + cont.toString();
-
-        var img = res[activity]["prof_img"];
-        var name = res[activity]["f_name"] + " " + res[activity]["l_name"];
-        var url = res[activity]["route"];
-        var type = res[activity]["activity_type"];
-        var start = res[activity]["s_time"];
-        var date = res[activity]["activity_date"].slice(0,10);
-        var distance = res[activity]["mileage"];
-        var time = res[activity]["duration"];
-        var end = this.calculateEndTime(start,time);
-
-        data.push(img,name,url,type,start,end,date,distance,time);
-        this.cardsInfo.push(data);
         cont++;
       }
       this.resultImage="";
 
-      if(localStorage.getItem("following") != "0" && res["size"] == 1){
+      if(res["length"] == 0){
         this.resultMessage = "Tus amigos no tienen actividades todavía";
-        this.resultImage = "../../assets/img/batmanrunning.gif";
-      }else if(res["size"] == 1){
-        this.resultMessage = "El usario no tiene amigos añadidos en StraviaTEC; diríjase a la sección de Búsqueda de atletas";
         this.resultImage = "../../assets/img/batmanrunning.gif";
       }
 
@@ -57,10 +41,6 @@ export class DashboardComponent implements OnInit{
   resultImage;
   resultMessage = "";
   cardsInfo = [];
-  cards = [["../../assets/img/default-avatar.png", "Jonathan Esquivel", "https://www.google.com/maps/d/embed?mid=1cQv-iSgDnNCLG_jrQyX5emwZZDzLbixd&hl=es-419","Atletismo","12:50:00","13:50:00","04/11/2020","30.1km","1.4hours"],
-               ["../../assets/img/default-avatar.png","Angelo Ortiz", "https://www.google.com/maps/d/embed?mid=1NtxatBwsDRZ0b_VZmAQGdFWSSE233Y3Q&hl=es-419","Ciclismo","12:50:00","13:50:00","04/11/2020","30.1km","1.4hours"],
-               ["../../assets/img/default-avatar.png","Agustín Venegas", "https://www.google.com/maps/d/embed?mid=1yYaYMv79WhM6JXegD89GanNor-IPc-gi&hl=es-419","Atletismo","12:50:00","13:50:00","01/11/2020","30.1km","1.4hours"],
-               ["../../assets/img/default-avatar.png","Iván Solís", "https://www.google.com/maps/d/embed?mid=18RcpszqRsKd-Gy4Q6N7PRl5eaPa1bzqL&hl=es-419","Caminata","12:50:00","13:50:00","04/11/2020","30.1km","1.4hours"]]
 
   public addUrl(actual){
     return this.sanitizer.bypassSecurityTrustResourceUrl(actual);
@@ -90,6 +70,23 @@ export class DashboardComponent implements OnInit{
     var endTime = hEnd + ":" + mEnd + ":00";
 
     return endTime;
+  }
+
+  uploadAtlete(usernameId, urlP, typeP, startP, dateP, distanceP, timeP){
+    this.CS.getAthlete(usernameId).subscribe(response =>{
+      var data = [];
+
+      var img = response["photo"];
+      var name = response["fname"] + " " + response["lname"];
+
+      var end = this.calculateEndTime(startP,timeP);
+
+      data.push(img,name,urlP,typeP,startP,end,dateP,distanceP,timeP);
+      this.cardsInfo.push(data);
+
+
+      return response;
+    })
   }
 
 }

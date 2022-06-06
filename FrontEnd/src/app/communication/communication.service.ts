@@ -14,12 +14,10 @@ export class CommunicationService {
   constructor(private http: HttpClient) {} 
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ATLETA
    public verifyUserAtl(username: string, password: string){
-     console.log({"username": username, "password": password})
-    return this.http.post<JSON>(this.URL + "api/athlete/login", {"username": username, "password": password, "birth_date":""});
-   }
+   return this.http.post<JSON>(this.URL + "api/athlete/login", {"username": username, "password": password, "birth_date":""});
+  }
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ORGANIZADOR
    public verifyUserOrg(username: string, password: string){
-     console.log({"username": username, "password": password})
     return this.http.post<JSON>(this.URL + "api/organizer/login", {"username": username, "password": password, 
                                                                   "birth_date":"", "fname": "", "lname": "",
                                                                   "photo": "", "nationality": ""});
@@ -32,23 +30,30 @@ export class CommunicationService {
   }
 
   //GET FRIENDS ACTIVITIES LIST
-  public getFriendsActivities(username){
-   return this.http.post<JSON>(this.URL+"api/athlete/follows",{'username':username});
+  public getFriendsActivities(user_id){
+    let params = new HttpParams();
+    params = params.append("id",user_id)
+   return this.http.post<JSON>(this.URL+"api/athlete/getActivitiesFriend?id="+user_id,{params:user_id});
  }
+
+ //GET GROUPS
+  public getAthlete(user_id){
+    return this.http.get<JSON>(this.URL+"api/Athlete/"+user_id);
+  }
 
   //GET RACES
   public getRaces(){
-    return this.http.post<JSON>(this.URL+"api/athlete/race", {"username":localStorage.getItem("current_username")});
+    return this.http.get<JSON>(this.URL+"api/Race");
   }
 
   //GET CHALLENGES
   public getChallenges(){
-    return this.http.post<JSON>(this.URL+"api/athlete/challenge", {"username":localStorage.getItem("current_username")});
+    return this.http.get<JSON>(this.URL+"api/Challenge");
   }
 
   //GET GROUPS
   public getGroups(){
-    return this.http.post<JSON>(this.URL+"api/athlete/groups", {"username":localStorage.getItem("current_username")});
+    return this.http.get<JSON>(this.URL+"api/Group");
   }
 
   //GET ORGANIZER RACES
@@ -89,18 +94,18 @@ export class CommunicationService {
 
   //SEND REGISTER DATA
   public sendRegisterDataAtl(fname, lname, nationality, bDate, age, user, pass, url, category){
-   return this.http.post<JSON>(this.URL+"api/Athlete",{
-     "fname":fname,
-     "lname":lname,
-     "nationality":nationality,
-     "birth_date":bDate,
-     "current_age":age,
-     "username":user,
-     "password":pass,
-     "photo":url,
-     "category":category
-      });
-   }
+    return this.http.post<JSON>(this.URL+"api/Athlete",{
+      "fname":fname,
+      "lname":lname,
+      "nationality":nationality,
+      "birth_date":bDate,
+      "current_age":age,
+      "username":user,
+      "password":pass,
+      "photo":url,
+      "category":category
+       });
+    }
 
    public sendRegisterDataOrg(fname, lname, nationality, bDate, age, user, pass, url){
     return this.http.post<JSON>(this.URL+"api/Organizer/register",{
@@ -132,15 +137,18 @@ export class CommunicationService {
     }
 
   //SEND REGISTER DATA
-  public sendNewActivity(username, s_time,duration,a_type,date,URL, km){
-    return this.http.post<JSON>(this.URL+"api/athlete/createactivity",{
-    "username":username,
-    "s_time":s_time,
+  public sendNewActivity(usernameId, s_time,duration,a_type,date,URL, km, categoryId, activityId){
+    return this.http.post<JSON>(this.URL+"api/Activity",{
+    "usernameId":usernameId,
+    "hour":s_time,
     "duration":duration,
-    "a_type":a_type,
+    "type":a_type,
     "date":date,
-    "URL":URL,
-    "km":km
+    "route":URL,
+    "isChallengeRace":true,
+    "mileage":km,
+    "categoryId":categoryId,
+    "activityTypeId":activityId
     });
   }
 
@@ -268,8 +276,8 @@ denyGroupEnrollment(group_name, athlete_username){
 }
 
 //AÑADE UN USUARIO A LA LISTA DE MIS AMIGOS
-addFriend(athlete_username){
-  return this.http.post<JSON>(this.URL+"api/athlete/searchAthlete",{"athlete_username": athlete_username});
+addFriend(friend_id, athlete_id){
+  return this.http.post<JSON>(this.URL+"api/athlete/addFriend",{"athleteId": athlete_id, "friendId":friend_id});
 }
 
 }

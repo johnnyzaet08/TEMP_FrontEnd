@@ -33,10 +33,11 @@ export class LoginComponent{
 
   //SE DEFINE UN LOCAL STORAGE PARA TENER ALCANCE EN TODO MOMENTO AL NOMBRE DE USUARIO Y SU CONTRASEÑA
   //RECIBE: NOMBRE DE USUARIO Y CONTRASEÑA, RESPECTIVAMENTE
-  setLocalStorage(username, password){
+  setLocalStorage(username, password, id){
     localStorage.clear();
     localStorage.setItem("current_username",username);
     localStorage.setItem("current_password",password);
+    localStorage.setItem("current_id",id);
     this.router.navigateByUrl('/dashboard');
   }
 
@@ -47,7 +48,8 @@ export class LoginComponent{
     if(user_type == "athlete"){
       this.CS.verifyUserAtl(username,password).subscribe(
         res => {
-          this.setLocalStorage(username, password); 
+          console.log(res)
+          this.setLocalStorage(username, password, res[0]["id"]); 
           //this.router.navigateByUrl('/dashboard');      
           },
         error => {
@@ -58,7 +60,8 @@ export class LoginComponent{
       console.log(user_type);
       this.CS.verifyUserOrg(username,password).subscribe(
         res => {
-          this.setLocalStorage(username, password); 
+          console.log(res)
+          this.setLocalStorage(username, password, res[0]["id"]); 
           this.router.navigateByUrl('/race-management');      
           },
         error => {
