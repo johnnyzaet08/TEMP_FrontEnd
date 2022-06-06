@@ -11,19 +11,15 @@
   min-height: 100vh;
 }
 
-.bg-image {
-  background-image: url('https://images.unsplash.com/photo-1552209841-d2dc5fd68a30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1090&q=80');
-  background-size: cover;
-  background-position: center center;
-}
+
 .bg-image-2 {
-  background-image: url('https://images.unsplash.com/photo-1458442310124-dde6edb43d10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+  background-image: url('../../../assets/img/straviatec-register-bg.jpg');
   background-size: cover;
   background-position: center center;
 }
 
 .bg-image-3 {
-  background-image: url('https://images.unsplash.com/photo-1558617320-e695f0d420de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+  background-image: url('../../../assets/img/straviatec-login-bg.avif');
   background-size: cover;
   background-position: center center;
 }

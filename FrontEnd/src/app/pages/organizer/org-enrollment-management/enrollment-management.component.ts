@@ -13,6 +13,7 @@ export class EnrollmentManagementComponent{
 
   //SE POPULAN LAS TABLAS DE LAS INSCRIPCIONES SOLICITADAS
   ngOnInit(): void {
+    /*
     this.races_table_content = [];
     this.CS.getOrgEnrollments(localStorage.getItem("current_username")).subscribe(res => {
       var cont = 1;
@@ -30,6 +31,7 @@ export class EnrollmentManagementComponent{
     }, error => {
       alert("ERROR");
     });
+    */
   }
 
   races_table_titles = [
@@ -43,6 +45,7 @@ export class EnrollmentManagementComponent{
 
   //ENVÍ0 DE DATOS DE ACEPTACIÓN DE INSCRIPCIÓN DE CARRERA A "COMMUNICATION SERVICE"
   acceptRaceEnrollment(race_id, athlete_username){
+    /*
     this.CS.acceptRaceEnrollment(race_id, athlete_username).subscribe(res => {
       this.CS.createReports().subscribe(res => {
         this.ngOnInit();
@@ -50,14 +53,17 @@ export class EnrollmentManagementComponent{
     }, error => {
       alert("ERROR");
     });
+    */
   }
 
   //ENVÍ0 DE DATOS DE DENEGACIÓN DE INSCRIPCIÓN DE CARRERA A "COMMUNICATION SERVICE"
   denyRaceEnrollment(race_id, athlete_username){
+    /*
     this.CS.denyRaceEnrollment(race_id, athlete_username).subscribe(res => {
       this.ngOnInit();
     }, error => {
       alert("ERROR");
     });
+    */
   }
 }

@@ -16,24 +16,28 @@ export class ChallengesManagementComponent{
     this.challenge_management_table_content = [];
 
     //SE POPULA LA TABLA DE RETOS DEL ORGANIZADOR, RECIBE EL NOMBRE DE USUARIO DEL ORGANIZADOR
-    this.CS.getOrgChallenges(localStorage.getItem("current_username")).subscribe(res => {
-      var cont = 1;
-      while(cont < res["size"]){
+    this.CS.getOrgChallenges().subscribe(res => {
+      var cont = 0;
+      this.challenge_management_table_content = [];
+
+      while(cont < res["length"]){
         var data = [];
-        var challenge = "cha" + cont.toString();
-        data.push(res[challenge]["cha_id"]);
-        data.push(res[challenge]["cha_name"]);
-        data.push(res[challenge]["t_period"].slice(0,10));
-        data.push(res[challenge]["cha_type"]);
-        data.push(res[challenge]["mileage"]);
-        data.push(res[challenge]["mode"]);
-        data.push(res[challenge]["visibility"]);
-        data.push(this.getData(res[challenge]["sponsors"], "sponsor","comp_name"));
+
+        data.push(res[cont]["id"]);
+        data.push(res[cont]["name"]);
+        data.push(res[cont]["type"]); 
+        data.push(res[cont]["period"]); 
+        data.push(res[cont]["mileage"]);        
+        data.push(res[cont]["visibility"]); 
+        
+        //data.push(this.getData(res[race]["bAccounts"], "account", "bank_account"));
+        //data.push(this.getData(res[race]["categories"], "category", "cat_name"));
+
         this.challenge_management_table_content.push(data);
         cont++;
       }
-    }, error => {
-        alert(error);
+    }, error=>{
+      alert("ERROR");
     });
   }
 
@@ -57,24 +61,24 @@ export class ChallengesManagementComponent{
 }
 
   challenge_management_table_titles = [
-    ["id", "Nombre","Periodo Disponible","Tipo de Actividad", "Distancia (km)","Modo","Privacidad","Patrocinadores"]
+    ["id", "Nombre","Tipo de Actividad", "Periodo Disponible", "Distancia (km)","Privacidad"]
   ]
 
-  challenge_management_table_content = []
+  challenge_management_table_content = [];
 
   //SE INICIALIZA LA VENTANA EMERGENTE (pop-up)
   openModal(content){ this.modal.open(content,{size:'lg', centered:true});}
 
   //ENVI0 DE DATOS DE RETOS A "COMMUNICATION SERVICE" PARA CREAR RETO
-  createChallenge(challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage){
-    this.CS.createChallenge(challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage).subscribe(res => {
+  createChallenge(challenge_name, challenge_period, activity_type, mileage, visibility){
+    this.CS.createChallenge(challenge_name, challenge_period, activity_type, mileage, visibility ).subscribe(res => {
       this.ngOnInit();
     });
   }
 
   //ENVÍ0 DE DATOS DE CARRERA A "COMMUNICATION SERVICE" PARA ACTUALIZAR CARRERA
-  updateChallenge(challenge_id, challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage){
-    this.CS.updateChallenge(challenge_id, challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage).subscribe(res => {
+  updateChallenge(challenge_id, challenge_name, challenge_period, activity_type, mileage, visibility){
+    this.CS.updateChallenge(challenge_id, challenge_name, challenge_period, activity_type, mileage, visibility).subscribe(res => {
       this.ngOnInit();
     });
   }

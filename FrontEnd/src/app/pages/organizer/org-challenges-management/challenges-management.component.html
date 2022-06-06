@@ -15,37 +15,38 @@
           <table class="table">
             <thead class="text-primary">
               <div fxFlex="30%" *ngFor="let item of challenge_management_table_titles">
-                <th >
-                  {{item[0]}}
-                </th>
-                <th>
-                  {{item[1]}}
-                </th>
-                <th>
-                  {{item[2]}}
-                </th>
-                <th>
-                  {{item[3]}}
-                </th>
-                <th>
-                  {{item[4]}}
-                </th>
-                <th>
-                  {{item[5]}}
-                </th>
-                <td>
-                  {{item[6]}}
-                </td>
-                <th class="text-right">
-                  {{item[7]}}
-                </th>
-
+                <tr>
+                  <th >
+                    {{item[0]}}
+                  </th>
+                  <th>
+                    {{item[1]}}
+                  </th>
+                  <th>
+                    {{item[2]}}
+                  </th>
+                  <th>
+                    {{item[3]}}
+                  </th>
+                  <th>
+                    {{item[4]}}
+                  </th>
+                  <th>
+                    {{item[5]}}
+                  </th>
+                  <td>
+                    {{item[6]}}
+                  </td>
+                  <th>
+                    {{item[7]}}
+                  </th>
+                </tr>
               </div>
 
             </thead>
             <tbody>
               <div fxFlex="30%" *ngFor="let item of challenge_management_table_content">
-
+                <tr>
                   <td>
                     {{item[0]}}
                   </td>
@@ -67,9 +68,10 @@
                   <td>
                     {{item[6]}}
                   </td>
-                  <td class="text-right">
+                  <td>
                     {{item[7]}}
                   </td>
+                </tr>  
 
               </div>
             </tbody>
@@ -99,45 +101,31 @@
       </div>
       <div class="form-group mb-3">
         <select #activity_type name="activity_type" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="running">Atletismo</option>
-          <option value="swimming">Natación</option>
-          <option value="biking">Ciclismo</option>
-          <option value="trekking">Senderismo</option>
-          <option value="kayak">Kayak</option>
-          <option value="walking">Caminata</option>
+          <option value="Atletismo">Atletismo</option>
+          <option value="Natación">Natación</option>
+          <option value="Ciclismo">Ciclismo</option>
+          <option value="Senderismo">Senderismo</option>
+          <option value="Kayak">Kayak</option>
+          <option value="Caminata">Caminata</option>
         </select>
       </div>
       <div class="form-group mb-3">
         <input #mileage type="text" placeholder="Distancia" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
       </div>
       <div class="form-group mb-3">
-        <select #challenge_mode name="challenge_mode" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="running">Fondo</option>
-          <option value="swimming">Altitud</option>
-        </select>
-      </div>
-      <div class="form-group mb-3">
-        <input #privacity type="text" placeholder="Privacidad" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
-      </div>
-      <div class="form-group mb-3" >
-        <select #challenge_partners name="partners" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="StraviaTec">StraviaTEC</option>
-          <option value="The North Face">The North Face</option>
-          <option value="Asics">Asics</option>
-          <option value="Red Bull">Red Bull</option>
-          <option value="Huawei Mobile">Huawei Mobile</option>
-          <option value="Strava">Strava</option>
+        <select #visibility name="Privacidad" class="form-control rounded-pill border-0 shadow-sm px-4">
+          <option value="Privado">Privado</option>
+          <option value="Público">Público</option>
         </select>
       </div>
 
     </form>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="createChallenge(challenge_name.value, challenge_period.value, activity_type.value, challenge_mode.value, privacity.value, challenge_partners.value, mileage.value)" (click)="modal.close()">Crear</button>
+      <button type="button" class="btn btn-success" (click)="createChallenge(challenge_name.value, challenge_period.value, activity_type.value, mileage.value, visibility.value)" (click)="modal.close()">Crear</button>
       <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Cancelar</button>
   </div>
 </ng-template>
-
 
 <ng-template #update_challenge_modal let-modal>
 
@@ -149,7 +137,7 @@
     <form>
 
       <div class="form-group mb-3">
-        <input #challenge_id type="text" placeholder="Id de Reto" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
+        <input #challenge_id type="text" placeholder="ID de Reto" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
       </div>
       <div class="form-group mb-3">
         <input #challenge_name type="text" placeholder="Nombre de Reto" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
@@ -159,41 +147,28 @@
       </div>
       <div class="form-group mb-3">
         <select #activity_type name="activity_type" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="running">Atletismo</option>
-          <option value="swimming">Natación</option>
-          <option value="biking">Ciclismo</option>
-          <option value="trekking">Senderismo</option>
-          <option value="kayak">Kayak</option>
-          <option value="walking">Caminata</option>
+          <option value="Atletismo">Atletismo</option>
+          <option value="Natación">Natación</option>
+          <option value="Ciclismo">Ciclismo</option>
+          <option value="Senderismo">Senderismo</option>
+          <option value="Kayak">Kayak</option>
+          <option value="Caminata">Caminata</option>
         </select>
       </div>
       <div class="form-group mb-3">
         <input #mileage type="text" placeholder="Distancia" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
       </div>
       <div class="form-group mb-3">
-        <select #challenge_mode name="challenge_mode" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="running">Fondo</option>
-          <option value="swimming">Altitud</option>
-        </select>
-      </div>
-      <div class="form-group mb-3">
-        <input #privacity type="text" placeholder="Privacidad" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
-      </div>
-      <div class="form-group mb-3" >
-        <select #challenge_partners name="partners" class="form-control rounded-pill border-0 shadow-sm px-4">
-          <option value="part_straviatec">StraviaTEC</option>
-          <option value="part_northface">The North Face</option>
-          <option value="part_asics">Asics</option>
-          <option value="part_redbull">Red Bull</option>
-          <option value="part_huawei">Huawei Mobile</option>
-          <option value="part_strava">Strava</option>
+        <select #visibility name="Privacidad" class="form-control rounded-pill border-0 shadow-sm px-4">
+          <option value="Privado">Privado</option>
+          <option value="Público">Público</option>
         </select>
       </div>
 
     </form>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="updateChallenge(challenge_id.value ,challenge_name.value, challenge_period.value, activity_type.value, challenge_mode.value, privacity.value, challenge_partners.value, mileage.value)" (click)="modal.close()">Actualizar</button>
+      <button type="button" class="btn btn-success" (click)="updateChallenge(challenge_id.value ,challenge_name.value, challenge_period.value, activity_type.value, mileage.value, visibility.value)" (click)="modal.close()">Actualizar</button>
       <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Cancelar</button>
   </div>
 </ng-template>
@@ -208,7 +183,7 @@
     <form>
 
       <div class="form-group mb-3">
-        <input #challenge_id type="text" placeholder="Id de Carrera" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
+        <input #challenge_id type="text" placeholder="ID de Carrera" required autofocus class="form-control rounded-pill border-0 shadow-sm px-4">
       </div>
     </form>
   </div>

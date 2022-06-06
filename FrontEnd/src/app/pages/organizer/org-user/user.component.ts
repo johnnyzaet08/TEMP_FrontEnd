@@ -14,20 +14,14 @@ export class UserComponent{
 
   //SE LLENA LA TABLA QUE MUESTRA LOS DATOS DEL ORGANIZADOR
   ngOnInit(): void{
-    this.CS.getOrgData().subscribe(res => {
-      this.userImage = res["organizer"]["prof_img"];
-      this.userFullName = res["organizer"]["f_name"] + " " + res["organizer"]["l_name"];
-    }, error => {
-      alert("ERROR");
-    })
   }
 
   //SE INICIALIZA LA VENTANA EMERGENTE (pop-up)
   openModal(content){ this.modal.open(content,{size:'sm', centered:true});}
 
 
-  userImage = "";
-  userFullName = "Usuario por Defecto";
+  userImage = "../../../../assets/img/faces/default-avatar.png";
+  userFullName = "";
   username = localStorage.getItem("current_username");
 
 }

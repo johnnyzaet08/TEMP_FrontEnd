@@ -1,5 +1,6 @@
 import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,10 @@ export class CommunicationService {
    }
    // LOGIN - INICIO DE SESIÓN | VERIFICACIÓN DE USUARIO ORGANIZADOR
    public verifyUserOrg(username: string, password: string){
-    console.log({"username": username, "password": password})
-    return this.http.post<JSON>(this.URL + "api/organizer/login", {"username": username, "password": password, "birth_date":""});
+     console.log({"username": username, "password": password})
+    return this.http.post<JSON>(this.URL + "api/organizer/login", {"username": username, "password": password, 
+                                                                  "birth_date":"", "fname": "", "lname": "",
+                                                                  "photo": "", "nationality": ""});
    }
 
 
@@ -49,18 +52,19 @@ export class CommunicationService {
   }
 
   //GET ORGANIZER RACES
-  public getOrgRaces(username){
-    return this.http.post<JSON>(this.URL+"api/organizer/races",{'username':username});
+  public getOrgRaces(){
+    return this.http.get<JSON>(this.URL+"api/Race");
+    //return this.http.post<JSON>(this.URL+"api/Race",{'username':username});
   }
 
   //GET ORGANIZER GROUPS
-  public getOrgGroups(username){
-    return this.http.post<JSON>(this.URL+"api/organizer/groups",{'username':username});
+  public getOrgGroups(){
+    return this.http.get<JSON>(this.URL+"api/Group");
   }
 
   //GET ORGANIZER CHALLENGES
-  public getOrgChallenges(username){
-    return this.http.post<JSON>(this.URL+"api/organizer/challenges",{'username':username});
+  public getOrgChallenges(){
+    return this.http.get<JSON>(this.URL+"api/Challenge");
   }
 
   //GET ORGANIZER ENROLLMENTS
@@ -80,7 +84,7 @@ export class CommunicationService {
 
   //GET ORGANIZER DATA
   public getOrgData(){
-    return this.http.post<JSON>(this.URL+"api/organizer/organizerinformation",{"username":localStorage.getItem("current_username")});
+    return this.http.post<JSON>(this.URL+"api/Organizer/searchOrganizer",{"username":localStorage.getItem("current_username")});
   }
 
   //SEND REGISTER DATA
@@ -141,57 +145,61 @@ export class CommunicationService {
   }
 
  //CREATE RACE
- public createRace(race_name, race_date, race_path, activity_type, privacity,race_cost,bank_account,race_category, race_partners){
-  return this.http.post<JSON>(this.URL+"api/organizer/createrace",
+ public createRace(race_name, race_date, race_path, activity_type, privacity,race_cost,bank_account,race_category){
+  return this.http.post<JSON>(this.URL+"api/Race",
                              {"name": race_name, "date": race_date, "route": race_path,"type": activity_type,
-                              "visibility": privacity, "cost": race_cost,"bank_account":bank_account,"cat_name": race_category, "sponsor": race_partners, "username": localStorage.getItem("current_username")});
+                              "visibility": privacity, "cost": race_cost,"bank_account":bank_account,"cat_name": race_category, "username": localStorage.getItem("current_username")});
 }
 
 //UPDATE RACE
-public updateRace(race_id ,race_name, race_date, race_path, activity_type, privacity,race_cost,bank_account,race_category, race_partners){
-  return this.http.post<JSON>(this.URL+"api/organizer/updaterace",
-                             {"race_id":race_id, "race_name": race_name, "race_date": race_date, "route": race_path,"race_type": activity_type,
-                              "visibility": privacity, "race_cost": race_cost,"bank_account":bank_account,"cat_name": race_category, "sponsor": race_partners, "username":localStorage.getItem("current_username")});
+public updateRace(race_id ,race_name, race_date, race_path, activity_type, privacity,race_cost,bank_account,race_category){
+  return this.http.put<JSON>(this.URL+"api/Race",
+                             {"id":race_id, "name": race_name, "date": race_date, "route": race_path,"type": activity_type,
+                              "visibility": privacity, "cost": race_cost,"bank_account":bank_account,"cat_name": race_category, "username":localStorage.getItem("current_username")});
 }
 
 //DELETE RACE
-public deleteRace(race_id, ){
-  return this.http.post<JSON>(this.URL+"api/organizer/deleterace",
-                            {"id": race_id, "username":localStorage.getItem("current_username")});
+public deleteRace(race_id){ 
+  let params = new HttpParams();
+  params = params.append('id', race_id);
+  return this.http.delete<JSON>(this.URL+"api/Race",{params: params});
 }
 
 
 //CREATE CHALLENGE
-public createChallenge(challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage){
-  return this.http.post<JSON>(this.URL+"api/organizer/createchallenge",
-                             {"name": challenge_name, "period": challenge_period, "type": activity_type,"mode": challenge_mode,
-                              "visibility": privacity, "sponsor": challenge_partners, "mileage":mileage, "username":localStorage.getItem("current_username")});
+public createChallenge(challenge_name, challenge_period, activity_type, mileage, visibility){
+  return this.http.post<JSON>(this.URL+"api/Challenge",
+                             {"name": challenge_name, "period": challenge_period, "type": activity_type, "mileage":mileage, "visibility": visibility, "username":localStorage.getItem("current_username")});
 }
 
 //UPDATE CHALLENGE
-updateChallenge(challenge_id ,challenge_name, challenge_period, activity_type, challenge_mode, privacity, challenge_partners, mileage){
-  return this.http.post<JSON>(this.URL+"api/organizer/updatechallenge",
-                             {"cha_id":challenge_id, "cha_name": challenge_name, "t_period": challenge_period, "cha_type": activity_type,"cha_mode": challenge_mode,
-                              "visibility": privacity, "sponsor": challenge_partners, "mileage":mileage, "username":localStorage.getItem("current_username")});
+public updateChallenge(challenge_id ,challenge_name, challenge_period, activity_type, mileage, visibility){
+  return this.http.put<JSON>(this.URL+"api/Challenge",
+                             {"id":challenge_id, "name": challenge_name, "period": challenge_period, "type": activity_type, "mileage":mileage, "visibility": visibility, "username":localStorage.getItem("current_username")});
 }
 
 //DELETE CHALLENGE
 public deleteChallenge(challenge_id){
-  return this.http.post<JSON>(this.URL+"api/organizer/deletechallenge",
-                             {"id": challenge_id, "username":localStorage.getItem("current_username")});
+  let params = new HttpParams();
+  params = params.append('id', challenge_id);
+  return this.http.delete<JSON>(this.URL+"api/Challenge", {params: params});
 }
-
 
 //CREATE GROUP
 public createGroup(group_name, group_admin){
-  return this.http.post<JSON>(this.URL+"api/organizer/creategroup",
-                             {"group_name": group_name, "group_admin": group_admin, "username":localStorage.getItem("current_username")});
+  return this.http.post<JSON>(this.URL+"api/Group", {"name": group_name, "administrator": group_admin});
 }
 
 //UPDATE GROUP
 public updateGroup(group_id, group_name, group_admin){
-  return this.http.post<JSON>(this.URL+"api/organizer/updategroup",
-                              {"group_id": group_id, "group_name": group_name, "group_admin": group_admin, "username":localStorage.getItem("current_username")});
+  return this.http.put<JSON>(this.URL+"api/Group", {"id": group_id, "name": group_name, "administrator": group_admin});
+}
+
+//DELETE GROUP
+public deleteGroup(group_id){
+  let params = new HttpParams();
+  params = params.append('id', group_id);
+  return this.http.delete<JSON>(this.URL+"api/Group",{params: params});
 }
 
 //GET USERS
@@ -199,12 +207,6 @@ public updateGroup(group_id, group_name, group_admin){
 // username2 : Atleta que busca (usuario)
 public getUsers(username){
   return this.http.get<JSON>(this.URL+"api/athlete");
-}
-
-//DELETE GROUP
-public deleteGroup(group_id){
-  return this.http.post<JSON>(this.URL+"api/organizer/deletegroup",
-                              {"id": group_id, "username": localStorage.getItem("current_username")});
 }
 
 //CREAR UNA NUEVA SOLICITUD DE INSCRIPCIÓN A CARRERA

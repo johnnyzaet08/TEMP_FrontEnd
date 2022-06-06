@@ -17,6 +17,5 @@ export class ReportsManagementComponent{
 
   //SE GENERAN REPORTES
   ngOnInit(): void{
-    this.CS.createReports().subscribe();
   }
 }

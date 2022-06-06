@@ -14,38 +14,29 @@ export class GroupsManagementComponent{
   ngOnInit(): void {
 
     //SE POPULA LA TABLA DE GRUPOS, DE EL ORGANIZADOR
-    this.CS.getOrgGroups(localStorage.getItem("current_username")).subscribe(res => {
-      var cont = 1;
+    this.CS.getOrgGroups().subscribe(res => {
+      var cont = 0;
       this.groups_management_table_content = [];
-      while(cont < res["size"]){
+      while(cont < res["length"]){
 
         var data = [];
-        var group = "group" + cont.toString();
 
-        data.push(res[group]["group_id"]);
-        data.push(res[group]["group_name"]);
-        data.push(res[group]["group_admin"]);
-        var cont2 = 1;
-        var desc = "";
-        while(cont2 < res[group]["athletes"]["size"]){
-          var athlete = "athlete" + cont2.toString();
-          desc += res[group]["athletes"][athlete]["username"];
-          cont2++;
-        }
-
-        data.push(desc);
+        data.push(res[cont]["id"]);
+        data.push(res[cont]["name"]);
+        data.push(res[cont]["administrator"]);     
 
         this.groups_management_table_content.push(data);
         cont++;
 
       }
     }, error => {
+      console.log(error);
       alert("ERROR");
     });
   }
 
   groups_management_table_titles = [
-    ["id","Nombre del Grupo","Administrador","Deportistas"]
+    ["id","Nombre del Grupo","Administrador"]
   ]
 
   groups_management_table_content = [];
